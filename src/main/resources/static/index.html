@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Beispielprojekt: Micronaut</title>
+
+</head>
+<body>
+<h1>Implementierung: Micronaut</h1>
+<p>Diese Anwendung realisiert die Workflowautomatisierung des gegebenen BPMN-Diagramms mit Hilfe von <b>Camunda BPM</b> und <b>Spring Boot</b>. Diese Anwendung dient als Basis des Vergleichs meiner Bachelorarbeit. Es soll verglichen werden, welche Vor- und Nachteile die Realisierung desselben Projekts in <b>Micronaut</b> und <b>Quarkus</b> mit sich bringen. </p>
+<img src="https://i.imgur.com/bW1R1rg.png">
+<p>Diese Anwendung besitzt kein Frontend, weswegen sie durch die REST-API gesteuert wird. Für POST-Anfragen kann <a href="https://www.postman.com/">Postman</a> verwendet werden. Mit dem senden eines Urlaubsantrags wird der Workflow gestartet. Der nachfolgende Task <b>"Urlaubsantrag überprüfen"</b> ist ein Humantask, welcher zuerst einem User assigned wird und anschließlich vom User bearbeitet wird. (Ablehnung oder Bestätitung des Urlaubantrags). Danach wird durch einen Servicetask eine automatische Meldung über den Ausgang des Urlaubsantrags ausgegeben. Dieses Workflowautomatisierung ist auf keinen Fall vollständig. Es soll lediglich zum Vergleich  mit Micronaut und Quarkus dienen.</p>
+<h2>Rest-API:</h2>
+<ul>
+    <li><b>POST /api/Holidayrequests/create</b></li>
+    <p>Erstellt ein Urlaubsantrag und startet den Workflow. "fullName", "vorgesetzter", "startDate", "endDate" und "status" müssen im JSON-Format im Body übergeben werden.</p>
+    <li><b>GET /api/Holidayrequests</b></li>
+    <p>Zeigt alle Urlaubsanträge an.</p>
+    <li><b>GET /api/Users</b></li>
+    <p>Zeigt alle angelegten User </p>
+    <li><b>GET /api/Users/{id}</b></li>
+    <p>Zeigt einen bestimmten User an.</p>
+    <li><b>POST/api/Users/create</b></li>
+    <p>Legt einen User an. "name" muss im Body im JSON Format übergeben werden.</p>
+    <li><b>GET /api/Holidayrequests/{id}</b></li>
+    <p>Zeigt einen speziellen Urlaubsantrag an</p>
+    <li><b>POST /api/Holidayrequests/{id}/assign</b></li>
+    <p>Assigned einen User einem bestimmten Task. "userid" und "name" müssen im Body im JSON Format übergeben werden.</p>
+    <li><b>POST /api/Holidayrequests/{id}/approve</b></li>
+    <p>Bestätigt einen bestimmten Urlaubsantrag."userid" und "name" müssen im Body im JSON Format übergeben werden. </p>
+    <li><b>POST /api/Holidayrequests/{id}/reject</b></li>
+    <p>Lehnt einen bestimmten Urlaubsantrag ab."userid" und "name" müssen im Body im JSON Format übergeben werden. </p>
+</ul>
+
+</body>
+</html>
