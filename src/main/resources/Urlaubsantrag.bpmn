@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gnovsh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:process id="urlaubsantrag" name="Urlaubsantrag" isExecutable="true">
+    <bpmn:sequenceFlow id="SequenceFlow_0wq9rb4" sourceRef="StartEvent_1" targetRef="Task_0od8yu3" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0tti99v">
+      <bpmn:incoming>SequenceFlow_0bmqruv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0meh3yu</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1ilyjuw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0bmqruv" sourceRef="Task_0od8yu3" targetRef="ExclusiveGateway_0tti99v" />
+    <bpmn:sequenceFlow id="SequenceFlow_0meh3yu" name="genehmigt" sourceRef="ExclusiveGateway_0tti99v" targetRef="Task_0pacdyj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1ilyjuw" name="abgelehnt" sourceRef="ExclusiveGateway_0tti99v" targetRef="Task_0eo272s">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved!=true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Task_0od8yu3" name="Urlaubsantrag überprüfen">
+      <bpmn:incoming>SequenceFlow_0wq9rb4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0bmqruv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_0eo272s" name="Ablehnung versenden" camunda:class="com.example.Rejection">
+      <bpmn:incoming>SequenceFlow_1ilyjuw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0oio6zo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_0pacdyj" name="Bestätigung versenden" camunda:class="com.example.Confirmation">
+      <bpmn:incoming>SequenceFlow_0meh3yu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0lmqqj1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_16f278m">
+      <bpmn:incoming>SequenceFlow_0oio6zo</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_078jf3l">
+      <bpmn:incoming>SequenceFlow_0lmqqj1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0lmqqj1" sourceRef="Task_0pacdyj" targetRef="EndEvent_078jf3l" />
+    <bpmn:sequenceFlow id="SequenceFlow_0oio6zo" sourceRef="Task_0eo272s" targetRef="EndEvent_16f278m" />
+    <bpmn:startEvent id="StartEvent_1" name="Urlaubsantrag eingegangen">
+      <bpmn:outgoing>SequenceFlow_0wq9rb4</bpmn:outgoing>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="urlaubsantrag">
+      <bpmndi:BPMNEdge id="SequenceFlow_0wq9rb4_di" bpmnElement="SequenceFlow_0wq9rb4">
+        <di:waypoint x="212" y="210" />
+        <di:waypoint x="400" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0tti99v_di" bpmnElement="ExclusiveGateway_0tti99v" isMarkerVisible="true">
+        <dc:Bounds x="585" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bmqruv_di" bpmnElement="SequenceFlow_0bmqruv">
+        <di:waypoint x="500" y="210" />
+        <di:waypoint x="585" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0meh3yu_di" bpmnElement="SequenceFlow_0meh3yu">
+        <di:waypoint x="610" y="185" />
+        <di:waypoint x="610" y="120" />
+        <di:waypoint x="740" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="643" y="123" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ilyjuw_di" bpmnElement="SequenceFlow_1ilyjuw">
+        <di:waypoint x="610" y="235" />
+        <di:waypoint x="610" y="280" />
+        <di:waypoint x="740" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="645" y="263" width="50" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0nasbvy_di" bpmnElement="Task_0od8yu3">
+        <dc:Bounds x="400" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0rej4dv_di" bpmnElement="Task_0eo272s">
+        <dc:Bounds x="740" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_14dp2ad_di" bpmnElement="Task_0pacdyj">
+        <dc:Bounds x="740" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_16f278m_di" bpmnElement="EndEvent_16f278m">
+        <dc:Bounds x="972" y="262" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_078jf3l_di" bpmnElement="EndEvent_078jf3l">
+        <dc:Bounds x="972" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0lmqqj1_di" bpmnElement="SequenceFlow_0lmqqj1">
+        <di:waypoint x="840" y="120" />
+        <di:waypoint x="972" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0oio6zo_di" bpmnElement="SequenceFlow_0oio6zo">
+        <di:waypoint x="840" y="280" />
+        <di:waypoint x="972" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_1ta7riz_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="176" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="235" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
