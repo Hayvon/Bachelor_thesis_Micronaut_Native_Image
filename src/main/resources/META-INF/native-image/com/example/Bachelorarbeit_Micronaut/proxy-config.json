@@ -1,0 +1,5 @@
+[
+  ["java.sql.Connection"],
+  ["java.sql.Connection","javax.sql.PooledConnection"],
+  ["java.sql.Statement"]
+]

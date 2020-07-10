@@ -8,7 +8,7 @@
     <bpmn:startEvent id="StartEvent_1" name="Applikation started">
       <bpmn:outgoing>SequenceFlow_1vnl9yo</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_0wesg3b">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2016-03-11T12:13:14</bpmn:timeDate>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
   </bpmn:process>

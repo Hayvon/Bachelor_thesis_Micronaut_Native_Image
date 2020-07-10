@@ -79,5 +79,8 @@ public class HolidayRequest {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void setId(long id) { this.id = id; }
+
 }
 

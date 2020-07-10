@@ -6,6 +6,7 @@ import io.micronaut.data.annotation.MappedEntity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Benutzer")
 public class User {
 
     @Id

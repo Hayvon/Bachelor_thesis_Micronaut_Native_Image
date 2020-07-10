@@ -11,7 +11,7 @@ import java.util.List;
 @Controller("/api/Users")
 public class UserController {
 
-    public static class NotFoundException extends Exception{}
+   public static class NotFoundException extends Exception{}
     public static class PayloadException extends Exception{}
     public static class NoSearchResultException extends Exception{}
 

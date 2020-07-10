@@ -108,13 +108,16 @@ public class HolidayRequestController {
         userid = Long.toString(newUser.getUserId());
         allTasks = getAllTasksForSpecificRequest(id);
 
-        for (Task task: allTasks) {
-            taskid = task.getId();
+        if (allTasks == null){
+            return "No tasks available";
+        }else {
+            for (Task task: allTasks) {
+                taskid = task.getId();
+            }
+            taskService.setAssignee(taskid, userid);
+            updateStatus(id, newUser.getName(), "Assigned");
+            return "Task Assigned";
         }
-
-        taskService.setAssignee(taskid, userid);
-        updateStatus(id, newUser.getName(), "Assigned");
-        return "Task Assigned";
     }
 
     //Approving holidayrequests
@@ -135,16 +138,23 @@ public class HolidayRequestController {
         variables.put("approved", "true");
         allTasks = getAllTasksForSpecificRequest(id);
 
-        for (Task task: allTasks) {
-            taskAssigne = task.getAssignee();
-            taskid = task.getId();
-        }
-        if (!(userid.equals(taskAssigne))){
-            return "You are not assigned for this Task!";
-        }else{
-            taskService.complete(taskid, variables);
-            updateStatus(id, newUser.getName(), "Approved");
-            return "Task completed!";
+        if (allTasks == null){
+            return "No tasks available";
+        }else {
+            for (Task task : allTasks) {
+                taskAssigne = task.getAssignee();
+                System.out.println(taskAssigne);
+                taskid = task.getId();
+            }
+            if (!(userid.equals(taskAssigne))){
+                System.out.println(userid);
+                System.out.println(taskAssigne);
+                return "You are not assigned for this Task!";
+            }else{
+                taskService.complete(taskid, variables);
+                updateStatus(id, newUser.getName(), "Approved");
+                return "Task completed!";
+            }
         }
     }
 
@@ -166,16 +176,20 @@ public class HolidayRequestController {
         variables.put("approved", "false");
         allTasks = getAllTasksForSpecificRequest(id);
 
-        for (Task task: allTasks) {
-            taskAssigne = task.getAssignee();
-            taskid = task.getId();
-        }
-        if (!(userid.equals(taskAssigne))){
-            return "You are not assigned for this Task!";
-        }else{
-            taskService.complete(taskid, variables);
-            updateStatus(id,newUser.getName(), "Rejected");
-            return "Task completed!";
+        if (allTasks == null){
+            return "No tasks available";
+        }else {
+            for (Task task: allTasks) {
+                taskAssigne = task.getAssignee();
+                taskid = task.getId();
+            }
+            if (!(userid.equals(taskAssigne))){
+                return "You are not assigned for this Task!";
+            }else{
+                taskService.complete(taskid, variables);
+                updateStatus(id,newUser.getName(), "Rejected");
+                return "Task completed!";
+            }
         }
     }
 
@@ -187,7 +201,13 @@ public class HolidayRequestController {
 
     //Query all Tasks for a specific holidayrequest
     List<Task> getAllTasksForSpecificRequest(long id){
-        return taskService.createTaskQuery().processVariableValueEquals("request_id",id).list();
+        allTasks = taskService.createTaskQuery().processVariableValueEquals("request_id",id).list();
+
+        if (allTasks.size() == 0){
+            return null;
+        } else {
+            return allTasks;
+        }
     }
 
     //Updates status of holidayrequest
