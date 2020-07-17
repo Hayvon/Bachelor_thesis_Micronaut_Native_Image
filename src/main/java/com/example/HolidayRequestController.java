@@ -77,20 +77,13 @@ public class HolidayRequestController {
         return  allHolidayRequests;
     }
 
-    //Show Tasks for specific Holidayrequest
+    //Show specific Holidayrequest
     @Get(uri = "/{id}", produces = {"application/json"})
-    String showHolidayRequestTask(@PathVariable("id") long id) throws NotFoundException {
-
+    HolidayRequest showSpecificHolidayRequest(@PathVariable("id") long id) throws NotFoundException {
         checkExistingHolidayRequest(id);
+        holidayRequest =  holidayRequestRepo.findById(id).get();
 
-        String taskString = "Keine Tasks zu diesem Urlaubsantrag verfügbar!";
-
-        List<Task> allTasks = taskService.createTaskQuery().processVariableValueEquals("request_id",id).list();
-
-        for (Task task: allTasks) {
-            taskString = "Task: " + task.getName() + " ID: " + task.getId() + " Assignee: " + task.getAssignee();
-        }
-        return taskString;
+        return holidayRequest;
     }
 
     //Assigning holidayrequests
